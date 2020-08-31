@@ -1,3 +1,4 @@
+
 data "template_file" "kubeconfig" {
   template = local.template_string
 
@@ -15,12 +16,15 @@ data "kustomization" "current" {
 
 data "template_file" "current_overlay" {
   for_each = data.kustomization.current.ids
-  template = replace(data.kustomization.current.manifests[each.value], "/\\$\\{([^_])/", "$$$${$1")
+  template = replace(replace(
+    data.kustomization.current.manifests[each.value], "/\\$\\{([^_][^}]*)\\}/", "$$$${$1}"
+  ), "/%\\{([^}]*)}/", "%%%{$1}")
 
   vars = var.template_vars
 }
 
 resource "kustomization_resource" "current" {
-  for_each = data.kustomization.current.ids
-  manifest = data.template_file.current_overlay[each.value].rendered
+  skip_dry_run = var.skip_dry_run
+  for_each     = data.kustomization.current.ids
+  manifest     = data.template_file.current_overlay[each.value].rendered
 }

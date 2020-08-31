@@ -17,5 +17,11 @@ variable "manifest_path" {
 variable "template_vars" {
   type        = map(any)
   description = "A list of variables to inject into the template"
-  default = {}
+  default     = {}
+}
+
+variable "skip_dry_run" {
+  type        = bool
+  description = "Skip the dry run against the k8s cluster"
+  default     = false
 }
