@@ -24,7 +24,6 @@ data "template_file" "current_overlay" {
 }
 
 resource "kustomization_resource" "current" {
-  skip_dry_run = var.skip_dry_run
-  for_each     = data.kustomization.current.ids
-  manifest     = data.template_file.current_overlay[each.value].rendered
+  for_each = data.kustomization.current.ids
+  manifest = data.template_file.current_overlay[each.value].rendered
 }
