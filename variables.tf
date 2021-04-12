@@ -20,8 +20,3 @@ variable "template_vars" {
   default     = {}
 }
 
-variable "skip_dry_run" {
-  type        = bool
-  description = "Skip the dry run against the k8s cluster"
-  default     = false
-}

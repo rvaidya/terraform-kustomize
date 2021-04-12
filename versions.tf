@@ -1,4 +1,9 @@
-
 terraform {
-  required_version = ">= 0.12"
+  required_providers {
+    kustomization = {
+      source  = "kbst/kustomization"
+      version = "0.5.0"
+    }
+  }
+  required_version = ">= 0.13"
 }
