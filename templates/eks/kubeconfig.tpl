@@ -17,12 +17,11 @@ users:
   user:
     exec:
       apiVersion: client.authentication.k8s.io/v1beta1
-      command: aws-iam-authenticator
       args:
-        - "token"
-        - "-i"
-        - "${cluster_name}"
-        %{ if caller_id_arn_type == "role" }
-        - "--role"
-        - "${caller_id_arn}"
-        %{ endif }
+      - --region
+      - ${cluster_region}
+      - eks
+      - get-token
+      - --cluster-name
+      - ${cluster_name}
+      command: aws
